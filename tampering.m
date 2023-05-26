@@ -1,5 +1,5 @@
 % Allow the user to select an image
-[filename, filepath] = uigetfile('*.*', 'Select an image file');
+[filename, filepath] = uigetfile('*.*', 'Select the watermarked image file to be Tampered');
 if filename ~= 0
     % Load the selected image
     img = imread(fullfile(filepath, filename));
@@ -7,12 +7,14 @@ if filename ~= 0
     % Display the original image
     figure;
     imshow(img);
-    title('Original Image');
+    title('Watermarked Image');
 
     % Allow the user to select a tampering option
     choice = menu('Select a tampering option:', ...
         'Gaussian noise', ...
         'Salt and pepper noise', ...
+        'Speckle noise', ...
+        'Poisson noise', ...
         'Motion blur', ...
         'Rotation', ...
         'Scaling');
@@ -27,17 +29,24 @@ if filename ~= 0
             density = input('Enter the noise density (0 to 1): ');
             tampered_img = imnoise(img, 'salt & pepper', density);
             title_str = sprintf('Salt and pepper noise (density = %.2f)', density);
-        case 3 % Motion blur
+        case 3 % Speckle noise
+            sigma = input('Enter the standard deviation of the noise: ');
+            tampered_img = imnoise(img, 'speckle', sigma);
+            title_str = sprintf('Speckle noise (\\sigma = %.2f)', sigma);
+        case 4 % Poisson noise
+            tampered_img = imnoise(img, 'poisson');
+            title_str = 'Poisson noise';
+        case 5 % Motion blur
             angle = input('Enter the blur angle (in degrees): ');
             len = input('Enter the blur length: ');
             h = fspecial('motion', len, angle);
             tampered_img = imfilter(img, h, 'replicate');
             title_str = sprintf('Motion blur (angle = %d, length = %d)', angle, len);
-        case 4 % Rotation
+        case 6 % Rotation
             theta = input('Enter the rotation angle (in degrees): ');
             tampered_img = imrotate(img, theta, 'bilinear', 'crop');
             title_str = sprintf('Rotation (angle = %d)', theta);
-        case 5 % Scaling
+        case 7 % Scaling
             scale_factor = input('Enter the scaling factor: ');
             tampered_img = imresize(img, scale_factor);
             title_str = sprintf('Scaling (factor = %.2f)', scale_factor);
@@ -54,3 +63,12 @@ if filename ~= 0
 else
     disp('No file selected.');
 end
+
+
+
+
+
+
+
+
+

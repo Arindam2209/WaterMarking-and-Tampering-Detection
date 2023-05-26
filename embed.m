@@ -1,5 +1,5 @@
 function y = embed(x, watermark, key)
-% Blind watermarking algorithm using Discrete Cosine Transform
+% watermarking algorithm using Discrete Cosine Transform
 % ARGUMENTS
 %           x: Original image to be watermarked
 %           watermark: Watermark image

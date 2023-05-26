@@ -1,5 +1,5 @@
 function watermark = extract(x, y, key)
-% Blind watermarking algorithm using Discrete Cosine Transform
+% watermarking algorithm using Discrete Cosine Transform
 % ARGUMENTS
 %           x: Original image
 %           y: Watermarked image
